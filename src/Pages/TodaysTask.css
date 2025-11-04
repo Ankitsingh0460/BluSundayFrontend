@@ -1,0 +1,310 @@
+.todays-task-container {
+  height: 90vh;
+  overflow-y: scroll;
+  padding: 20px 30px;
+  /* background-color: pink; */
+  width: 85vw;
+
+  .tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .tasks-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+
+  .new-task-button {
+    background-color: #2f3aa3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .new-task-button:hover {
+    background-color: #252d82;
+  }
+
+  /* Create Task Modal Styles */
+  .create-task-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 24px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #333;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .submit-button {
+    background-color: #2f3aa3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .cancel-button {
+    background-color: #f8f9fa;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .submit-button:hover {
+    background-color: #252d82;
+  }
+
+  .cancel-button:hover {
+    background-color: #e9ecef;
+  }
+
+  /* Delete Button Styles */
+  .delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+
+  /* Existing table styles */
+  .table-container {
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+
+  .tasks-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  .tasks-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .tasks-table th:nth-child(1) {
+    width: 20%;
+  }
+  .tasks-table th:nth-child(2) {
+    width: 35%;
+  }
+  .tasks-table th:nth-child(3) {
+    width: 20%;
+  }
+  .tasks-table th:nth-child(4) {
+    width: 15%;
+  }
+  .tasks-table th:nth-child(5) {
+    width: 10%;
+  }
+
+  .tasks-table td {
+    padding: 18px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+  }
+
+  .task-description-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 0;
+    cursor: help;
+  }
+
+  .tasks-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  .tasks-table tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  .assignee {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    background-color: #6c5ce7;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .status-select {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 150px;
+  }
+
+  .status-select.pending {
+    background-color: #fff3dc;
+    color: #b25e09;
+    border-color: #ffd8a8;
+  }
+
+  .status-select.in-progress {
+    background-color: #e7f5ff;
+    color: #228be6;
+    border-color: #74c0fc;
+  }
+
+  .status-select.completed {
+    background-color: #dcfce7;
+    color: #15803d;
+    border-color: #86efac;
+  }
+
+  .status-select:hover {
+    filter: brightness(0.95);
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .edit-button {
+    background-color: #2f3aa3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .edit-button:hover {
+    background-color: #252d82;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .filter-container {
+    position: relative;
+  }
+
+  .filter-select {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1em;
+  }
+
+  .filter-select:hover {
+    border-color: #999;
+  }
+
+  .filter-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+}
