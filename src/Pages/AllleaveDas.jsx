@@ -11,11 +11,14 @@ const LeaveDashboard = () => {
   const fetchLeaves = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8001/api/leaves/all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        "https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/all",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       setLeaves(res.data);
     } catch (err) {
       console.error("Error fetching leave data:", err);
@@ -29,7 +32,7 @@ const LeaveDashboard = () => {
   const handleAction = async (id, status) => {
     try {
       await axios.put(
-        `http://localhost:8001/api/leaves/${id}/status`,
+        `https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/${id}/status`,
         { status },
         {
           headers: {

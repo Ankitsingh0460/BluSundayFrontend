@@ -24,11 +24,14 @@ export default function ApplyLeave() {
   const fetchMyLeaves = async () => {
     try {
       setFetching(true);
-      const res = await axios.get("http://localhost:8001/api/leaves/my", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        "https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/my",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       setLeaves(res.data);
     } catch (err) {
       console.error(err);
@@ -46,7 +49,7 @@ export default function ApplyLeave() {
     try {
       const employeeId = localStorage.getItem("id");
       await axios.post(
-        "http://localhost:8001/api/leaves/apply",
+        "https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/apply",
         {
           ...form,
           employeeId,
