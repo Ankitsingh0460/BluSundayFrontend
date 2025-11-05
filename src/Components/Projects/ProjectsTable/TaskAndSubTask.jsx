@@ -27,6 +27,8 @@ const TaskAndSubTask = ({ onBack }) => {
   const [expandedTasks, setExpandedTasks] = useState([]);
   const [taskData, setTaskData] = useState([]);
   const [projectName, setProjectName] = useState("");
+  const [isAdding, setIsAdding] = useState(false);
+
   const [isTaskDetailPopupOpen, setIsTaskDetailPopupOpen] = useState(false);
   const [isCreateTaskVisible, setIsCreateTaskVisible] = useState(false);
   const [taskEditData, setTaskEditData] = useState();
@@ -130,6 +132,8 @@ const TaskAndSubTask = ({ onBack }) => {
     }
 
     try {
+      setIsAdding(true); // 🔹 Start loading
+
       const token = localStorage.getItem("token");
       const response = await axios.post(
         `https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/task/${selectedTaskId}/dependencies`,
@@ -147,10 +151,10 @@ const TaskAndSubTask = ({ onBack }) => {
 
       notify("success", "Dependency added successfully");
 
-      // Refresh tasks list after adding dependency
+      // 🔹 Refresh tasks after successful add
       fetchTasksAndSubtasks();
 
-      // Clear input fields
+      // 🔹 Clear inputs & close popup
       setSelectedMemberId("");
       setDescription("");
       setDependenciesPopup({
@@ -166,6 +170,8 @@ const TaskAndSubTask = ({ onBack }) => {
         "error",
         error.response?.data?.message || "Failed to add dependency"
       );
+    } finally {
+      setIsAdding(false); // 🔹 Stop loading
     }
   };
 
@@ -793,8 +799,13 @@ const TaskAndSubTask = ({ onBack }) => {
                 <button
                   className="dependency-add-button"
                   onClick={handleAddDependency}
+                  disabled={isAdding}
+                  style={{
+                    opacity: isAdding ? 0.7 : 1,
+                    cursor: isAdding ? "not-allowed" : "pointer",
+                  }}
                 >
-                  Add
+                  {isAdding ? "Adding..." : "Add"}
                 </button>
               </div>
             </div>
