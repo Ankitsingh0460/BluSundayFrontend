@@ -14,34 +14,49 @@ export default function ApplyLeave() {
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
-  const [showLeaves, setShowLeaves] = useState(false); // 👈 toggle visibility
+  const [showLeaves, setShowLeaves] = useState(false); // ✅ For leave balance
+  const [balance, setBalance] = useState({
+    totalLeaves: 0,
+    leavesTaken: 0,
+    remainingLeaves: 0,
+  });
 
-  // ✅ Handle input changes
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  // ✅ Fetch all applied leaves for the logged-in user
+  // ✅ Fetch leave balance
+  const fetchLeaveBalance = async () => {
+    try {
+      const res = await axios.get("http://localhost:8001/api/leaves/summary", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setBalance(res.data);
+    } catch (err) {
+      console.error(err);
+      notify("Failed to fetch leave balance");
+    }
+  };
+
+  useEffect(() => {
+    fetchMyLeaves();
+    fetchLeaveBalance(); // fetch balance
+  }, []);
+
   const fetchMyLeaves = async () => {
     try {
       setFetching(true);
-      const res = await axios.get(
-        "https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/my",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const res = await axios.get("http://localhost:8001/api/leaves/my", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       setLeaves(res.data);
     } catch (err) {
       console.error(err);
-      notify(err.response?.data?.message || "Failed to fetch leaves");
+      alert(err.response?.data?.message || "Failed to fetch leaves");
     } finally {
       setFetching(false);
     }
   };
 
-  // ✅ Apply for leave
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -49,17 +64,14 @@ export default function ApplyLeave() {
     try {
       const employeeId = localStorage.getItem("id");
       await axios.post(
-        "https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/apply",
-        {
-          ...form,
-          employeeId,
-        },
+        "http://localhost:8001/api/leaves/apply",
+        { ...form, employeeId },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
 
-      alert("Leave Applied Successfully ✅");
+      alert("✅ Leave Applied Successfully");
       setForm({
         leaveType: "Casual Leave",
         startDate: "",
@@ -67,9 +79,9 @@ export default function ApplyLeave() {
         reason: "",
       });
 
-      // Refresh leave list
       fetchMyLeaves();
-      setShowLeaves(true); // 👈 automatically show after applying
+      fetchLeaveBalance(); // ✅ refresh balance after applying leave
+      setShowLeaves(true);
     } catch (err) {
       alert(err.response?.data?.message || "Something went wrong!");
     } finally {
@@ -79,10 +91,20 @@ export default function ApplyLeave() {
 
   useEffect(() => {
     fetchMyLeaves();
+    fetchLeaveBalance(); // ✅ fetch balance on load
   }, []);
 
   return (
     <div className="apply-leave-container">
+      {/* ✅ Leave Balance Display */}
+      {balance && (
+        <div className="leave-balance">
+          <p>Total Leaves: {balance.totalLeaves}</p>
+          <p>Leaves Taken: {balance.leavesTaken}</p>
+          <p>Remaining Leaves: {balance.remainingLeaves}</p>
+        </div>
+      )}
+
       <form className="apply-leave-form" onSubmit={handleSubmit}>
         <h2>Apply for Leave</h2>
 
@@ -126,12 +148,11 @@ export default function ApplyLeave() {
           {loading ? "Applying..." : "Apply Leave"}
         </button>
 
-        {/* ✅ Show/Hide Leaves Button */}
         <button
           type="button"
           className="show-leaves-btn"
           onClick={() => {
-            if (!showLeaves) fetchMyLeaves(); // only refetch when opening
+            if (!showLeaves) fetchMyLeaves();
             setShowLeaves(!showLeaves);
           }}
         >
@@ -139,7 +160,13 @@ export default function ApplyLeave() {
         </button>
       </form>
 
-      {/* ✅ Conditionally show leaves table */}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loader"></div>
+          <p>Applying your leave request...</p>
+        </div>
+      )}
+
       {showLeaves && (
         <div className="my-leaves-section">
           <h3>My Applied Leaves</h3>

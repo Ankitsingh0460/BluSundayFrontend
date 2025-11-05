@@ -74,3 +74,40 @@
   background: #f8d7da;
   color: #721c24;
 }
+/* ApplyLeave.css */
+
+.leave-balance {
+  display: flex;
+  justify-content: space-around; /* evenly space items */
+  align-items: center;
+  background-color: #f5f5f5; /* light grey background */
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  color: #333;
+}
+
+.leave-balance p {
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  min-width: 120px;
+}
+
+/* Different colors for each type */
+.leave-balance p:nth-child(1) {
+  background-color: #4caf50; /* Total Leaves - green */
+}
+
+.leave-balance p:nth-child(2) {
+  background-color: #f44336; /* Leaves Taken - red */
+}
+
+.leave-balance p:nth-child(3) {
+  background-color: #2196f3; /* Remaining Leaves - blue */
+}
