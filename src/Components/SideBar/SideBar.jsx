@@ -34,7 +34,7 @@ const SideBar = () => {
   // ✅ Get logged-in user's ID from localStorage
   const employeeId = localStorage.getItem("id");
 
-  // ✅ List of IDs who can see "Leave Application"
+  // ✅ List of IDs allowed for Leave features
   const allowedIds = [
     "682db9b50ebdecdad0af6234",
     "68301cc63517dcbb1dd6ab32",
@@ -110,12 +110,15 @@ const SideBar = () => {
             <span>Dependencies</span>
           </NavLink>
 
-          <NavLink to="/applyleave" className="nav-item">
-            <ClipboardList size={20} />
-            <span>Apply Leave</span>
-          </NavLink>
+          {/* ✅ Show Apply Leave only if user ID is NOT in allowed list */}
+          {!allowedIds.includes(employeeId) && (
+            <NavLink to="/applyleave" className="nav-item">
+              <ClipboardList size={20} />
+              <span>Apply Leave</span>
+            </NavLink>
+          )}
 
-          {/* ✅ Conditionally show Leave Application */}
+          {/* ✅ Show Leave Application only if user ID matches allowed list */}
           {allowedIds.includes(employeeId) && (
             <NavLink to="/allleaves" className="nav-item">
               <ClipboardList size={20} />
