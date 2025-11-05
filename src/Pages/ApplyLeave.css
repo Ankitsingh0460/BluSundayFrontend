@@ -1,0 +1,76 @@
+.apply-leave-container {
+  width: 50%;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.apply-leave-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.apply-leave-form input,
+.apply-leave-form select,
+.apply-leave-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.apply-leave-form button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.apply-leave-form button:disabled {
+  background: #aaa;
+}
+
+.my-leaves-section {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.leave-table th,
+.leave-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.status-badge {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}

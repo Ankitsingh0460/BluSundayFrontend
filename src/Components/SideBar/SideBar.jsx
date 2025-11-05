@@ -2,7 +2,6 @@ import {
   BarChart2,
   Calendar,
   ClipboardList,
-  FileText,
   FolderKanban,
   LayoutDashboard,
   LogOut,
@@ -10,12 +9,10 @@ import {
   UserRound,
   Users,
   UserCog,
-  ChevronLeft,
   PanelRightOpen,
   PanelRightClose,
 } from "lucide-react";
 import { LayoutList } from "lucide-react";
-import { ListTodo } from "lucide-react";
 import { TbAB2 } from "react-icons/tb";
 import "./SideBar.css";
 import { NavLink } from "react-router-dom";
@@ -26,25 +23,24 @@ import { useAuth } from "../../context/AuthContext";
 const SideBar = () => {
   const { user, logout } = useAuth();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
-  const [userRole, setUserRole] = useState("manager");
-
-  const handleSettingOpen = () => {
-    console.log("clicked...");
-    setIsSettingOpen(true);
-  };
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const handleOutsideClick = () => {
-    // alert("Clicked outside the nested box!");
-    setIsSettingOpen(false);
-  };
-  const handleExpendCollapseSidebar = () => {
-    //console.log("clicked....");
-    setIsSidebarVisible((prev) => !prev);
-  };
 
-  const handleLogout = () => {
-    logout();
-  };
+  const handleSettingOpen = () => setIsSettingOpen(true);
+  const handleOutsideClick = () => setIsSettingOpen(false);
+  const handleExpendCollapseSidebar = () =>
+    setIsSidebarVisible((prev) => !prev);
+  const handleLogout = () => logout();
+
+  // ✅ Get logged-in user's ID from localStorage
+  const employeeId = localStorage.getItem("id");
+
+  // ✅ List of IDs who can see "Leave Application"
+  const allowedIds = [
+    "682db9b50ebdecdad0af6234",
+    "68301cc63517dcbb1dd6ab32",
+    "682dbad70ebdecdad0af623d",
+    "68401b69fdc3b95e30e9840f",
+  ];
 
   return (
     <div
@@ -80,23 +76,21 @@ const SideBar = () => {
             <span>Task</span>
           </NavLink>
 
-          {/* <NavLink to="/todays_task" className="nav-item">
-          <ListTodo size={20} />
-            <span>Todays Task</span>
-          </NavLink> */}
-
           {user?.role === "admin" && (
-            <NavLink to="/admin" className="nav-item">
-              <UserCog size={20} />
-              <span>Admin</span>
-            </NavLink>
-          )}
-
-          {user?.role === "admin" && (
-            <NavLink to="/managers" className="nav-item">
-              <UserRound size={20} />
-              <span>Managers</span>
-            </NavLink>
+            <>
+              <NavLink to="/admin" className="nav-item">
+                <UserCog size={20} />
+                <span>Admin</span>
+              </NavLink>
+              <NavLink to="/managers" className="nav-item">
+                <UserRound size={20} />
+                <span>Managers</span>
+              </NavLink>
+              <NavLink to="/ProjectTemplates" className="nav-item">
+                <UserRound size={20} />
+                <span>Project Templates</span>
+              </NavLink>
+            </>
           )}
 
           {(user?.role === "admin" || user?.role === "manager") && (
@@ -105,54 +99,49 @@ const SideBar = () => {
               <span>Team Members</span>
             </NavLink>
           )}
+
           <NavLink to="/calendar" className="nav-item">
-            {/* <NavLink to="/Hello" className="nav-item"> */}
             <Calendar size={20} />
             <span>Calendar</span>
           </NavLink>
-          {/* <NavLink to="/calendar" className="nav-item">
-            <Calendar size={20} />
-            <span>Calendar</span>
-          </NavLink> */}
-          <NavLink to="/dependencies" className="nav-item">
-            {/* <NavLink to="/Hello" className="nav-item"> */}
 
+          <NavLink to="/dependencies" className="nav-item">
             <TbAB2 size={20} />
             <span>Dependencies</span>
           </NavLink>
-          {user?.role === "admin" && (
-            <NavLink to="/ProjectTemplates" className="nav-item">
-              <UserRound size={20} />
-              <span>Project Templates</span>
+
+          <NavLink to="/applyleave" className="nav-item">
+            <ClipboardList size={20} />
+            <span>Apply Leave</span>
+          </NavLink>
+
+          {/* ✅ Conditionally show Leave Application */}
+          {allowedIds.includes(employeeId) && (
+            <NavLink to="/allleaves" className="nav-item">
+              <ClipboardList size={20} />
+              <span>Leave Application</span>
             </NavLink>
           )}
-
-          {/* <NavLink to="/reports" className="nav-item">
-            <BarChart2 size={20} />
-            <span>Reports</span>
-          </NavLink> */}
-
-          {/* {(user?.role==='admin' || user?.role==='manager') && <NavLink to="/review-subtasks" className="nav-item">          
-            <ClipboardList size={20} />
-            <span>Review Subtasks</span>
-          </NavLink>} */}
 
           <NavLink to="/audit-Logs" className="nav-item">
             <ClipboardList size={20} />
             <span>Audit Logs</span>
           </NavLink>
         </ul>
+
         <ul>
           <li className="nav-item" onClick={handleSettingOpen}>
             <Settings size={20} />
             <span>Settings</span>
           </li>
+
           <NavLink to="/login" className="nav-item" onClick={handleLogout}>
             <LogOut size={20} />
             <span>Logout</span>
           </NavLink>
         </ul>
       </nav>
+
       {isSettingOpen && (
         <Setting
           setIsSettingOpen={setIsSettingOpen}

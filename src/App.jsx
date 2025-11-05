@@ -24,6 +24,8 @@ import ProjectTemplates from "./Pages/ProjectTemplates";
 import Review from "./Pages/Review";
 import TodaysTask from "./Pages/TodaysTask";
 import Dependencies from "./Components/Dependency/Dependencies";
+import ApplyLeave from "./Pages/ApplyLeave";
+import LeaveDashboard from "./Pages/AllleaveDas";
 
 const App = () => {
   return (
@@ -49,6 +51,8 @@ const App = () => {
               {/* <Route path="/todays_task" element={<TodaysTask />} /> */}
               {/* <Route path="/calendar" element={<Calender />} />                 */}
               <Route path="/dependencies" element={<Dependencies />} />
+              <Route path="/applyleave" element={<ApplyLeave />} />
+              <Route path="/allleaves" element={<LeaveDashboard />} />
               <Route path="/audit-Logs" element={<AuditLogs />} />
               <Route path="/calendar" element={<Calender />} />
               <Route path="/Hello" element={<Error />} />
