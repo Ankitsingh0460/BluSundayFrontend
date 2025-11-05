@@ -13,11 +13,14 @@ const LeaveDashboard = () => {
   const fetchLeaves = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8001/api/leaves/all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        "https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/all",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       setLeaves(res.data);
 
       // Fetch leave balance for each unique employee
@@ -35,7 +38,7 @@ const LeaveDashboard = () => {
   const fetchBalance = async (employeeId) => {
     try {
       const res = await axios.get(
-        `http://localhost:8001/api/leaves/summary?employeeId=${employeeId}`,
+        `https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/summary?employeeId=${employeeId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -54,7 +57,7 @@ const LeaveDashboard = () => {
       setActionLoading(id); // show loading for this leave row
 
       await axios.put(
-        `http://localhost:8001/api/leaves/${id}/status`,
+        `https://blu-sunday-product-be-newchangesdevbe-production.up.railway.app/api/leaves/${id}/status`,
         { status },
         {
           headers: {
